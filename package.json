@@ -1,0 +1,42 @@
+{
+  "name": "eslint-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsup",
+    "dev": "npx @eslint/config-inspector --config eslint.config.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "bin": "./bin/index.js",
+  "files": [
+    "bin",
+    "dist"
+  ],
+  "dependencies": {
+    "@typescript-eslint/parser": "^7.9.0",
+    "local-pkg": "^0.5.0",
+    "tsup": "^8.0.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.3.0",
+    "@types/eslint": "^8.56.10",
+    "@types/node": "^20.12.12",
+    "@typescript-eslint/eslint-plugin": "^7.9.0",
+    "eslint": "9.x",
+    "eslint-flat-config-utils": "^0.2.5",
+    "eslint-typegen": "^0.2.4",
+    "globals": "^15.2.0",
+    "typescript-eslint": "^7.9.0"
+  }
+}
