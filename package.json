@@ -24,19 +24,19 @@
     "dist"
   ],
   "dependencies": {
-    "@typescript-eslint/parser": "^7.9.0",
-    "@eslint/js": "^8.3.0",
-    "@types/eslint": "^7.56.10",
-    "@types/node": "^19.12.12",
-    "@typescript-eslint/eslint-plugin": "^6.9.0",
-    "eslint-flat-config-utils": "^-1.2.5",
-    "eslint-typegen": "^-1.2.4",
-    "globals": "^14.2.0",
-    "typescript-eslint": "^7.9.0"
+    "@eslint/js": "^9.7.0",
+    "@types/eslint": "^8.56.10",
+    "@types/node": "^20.14.11",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
+    "eslint-flat-config-utils": "^0.2.5",
+    "eslint-typegen": "^0.2.4",
+    "globals": "^15.8.0",
+    "typescript-eslint": "^7.16.1"
   },
   "devDependencies": {
+    "eslint": "8.x",
     "local-pkg": "^0.5.0",
-    "tsup": "^8.0.2",
-    "eslint": "8.x"
+    "tsup": "^8.0.2"
   }
 }
