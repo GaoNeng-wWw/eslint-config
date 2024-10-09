@@ -1,6 +1,6 @@
 {
-  "name": "eslint-config",
-  "version": "1.0.1",
+  "name": "@gaonengwww/eslint-config",
+  "version": "1.0.0",
   "description": "",
   "scripts": {
     "build": "tsup"
