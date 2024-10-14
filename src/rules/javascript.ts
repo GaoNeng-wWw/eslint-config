@@ -1,8 +1,8 @@
-import { Override } from "../factory";
+import { Override } from '../factory';
 import { Linter } from 'eslint';
 import global from 'globals';
 
-export const javascript = (
+export const javascript = async (
     overrides: Override,
     languageOptions?: Linter.Config['languageOptions'],
     linterOptions?: Linter.Config['linterOptions'],
@@ -40,7 +40,7 @@ export const javascript = (
             rules: {
                 'constructor-super': ['error'],
                 'for-direction': ['error'],
-                'getter-return': ['error', { "allowImplicit": true }],
+                'getter-return': ['error', { 'allowImplicit': true }],
                 'no-async-promise-executor': ['error'],
                 'no-class-assign': ['error'],
                 'no-compare-neg-zero': ['error'],
@@ -57,13 +57,13 @@ export const javascript = (
                 'no-func-assign': ['error'],
                 'no-import-assign': ['error'],
                 'no-inner-declarations': ['error'],
-                'no-invalid-regexp': ["error", { "allowConstructorFlags": ["a", "z"] }],
+                'no-invalid-regexp': ['error', { 'allowConstructorFlags': ['a', 'z'] }],
                 'no-irregular-whitespace': ['off'],
                 'no-loss-of-precision': ['warn'],
                 'no-misleading-character-class': ['off'],
                 'no-new-symbol': ['error'],
                 'no-obj-calls': ['error'],
-                'no-promise-executor-return': ["error", { allowVoid: true }],
+                'no-promise-executor-return': ['error', { allowVoid: true }],
                 'no-setter-return': ['error'],
                 'no-sparse-arrays': ['error'],
                 'no-this-before-super': ['error'],
@@ -92,11 +92,9 @@ export const javascript = (
                 'no-var': 'error',
                 'no-with': 'error',
                 'accessor-pairs': ['error', { enforceForClassMembers: true, setWithoutGet: true }],
-                'arrow-body-style': ['error', 'as-needed', {
-                    requireReturnForObjectLiteral: true
-                }],
+                'arrow-body-style': ['off'],
                 'curly': ['error', 'all'],
-                'dot-notation': ['error', { "allowKeywords": false }],
+                'dot-notation': ['error', { 'allowKeywords': false }],
                 'eqeqeq': ['error'],
                 'new-cap': ['error', { capIsNew: false, newIsCap: true, properties: true }],
                 'no-delete-var': ['error'],
@@ -105,8 +103,8 @@ export const javascript = (
                 'no-extra-boolean-cast': ['error'],
                 'no-extra-label': ['error'],
                 'semi': ['error', 'always'],
-                'brace-style': ["error", "1tbs", { "allowSingleLine": true }],
-                'comma-spacing': ["error", { "before": false, "after": true }],
+                'brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
+                'comma-spacing': ['error', { 'before': false, 'after': true }],
                 'quotes': ['error', 'single'],
                 'space-before-blocks': ['error'],
                 'linebreak-style': ['off'],
@@ -114,4 +112,4 @@ export const javascript = (
             }
         }
     ] as Linter.Config[];
-}
+};
