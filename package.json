@@ -1,7 +1,7 @@
 {
   "name": "@gaonengwww/eslint-config",
   "version": "1.0.2",
-  "description": "",
+  "description": "GaoNeng-wWw's eslint config",
   "scripts": {
     "build": "tsup",
     "lint": "eslint --flag unstable_ts_config .",
@@ -21,7 +21,7 @@
   ],
   "type": "module",
   "keywords": [],
-  "author": "",
+  "author": "GaoNeng-wWw <gaonenggg@outlook.com>",
   "license": "MIT",
   "devDependencies": {
     "@eslint/config-inspector": "^0.7.0",
