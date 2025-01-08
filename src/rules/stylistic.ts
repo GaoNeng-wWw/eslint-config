@@ -11,6 +11,7 @@ export const stylistic = (
   const baseRule = stylisticPlugin.configs.customize({ semi: true, indent: 2 });
   return [
     {
+      name: 'gaonengwww/stylistic',
       plugins: {
         '@stylistic': stylisticPlugin,
       },
