@@ -22,6 +22,8 @@ export interface VueOptions {
   sfcBlocks?: boolean | VueBlocksOptions;
   vueVersion?: number;
   enable?: boolean;
+  indent?: number;
+  stylistic?: boolean;
 }
 export type TypescriptOptions = {
   files?: string[];
