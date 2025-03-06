@@ -94,7 +94,7 @@ export const javascript = async (
         'accessor-pairs': ['error', { enforceForClassMembers: true, setWithoutGet: true }],
         'arrow-body-style': ['off'],
         'curly': ['error', 'all'],
-        'dot-notation': ['error', { allowKeywords: false }],
+        'dot-notation': ['error', { allowKeywords: true }],
         'eqeqeq': ['error'],
         'new-cap': ['error', { capIsNew: false, newIsCap: true, properties: true }],
         'no-delete-var': ['error'],
