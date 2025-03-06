@@ -18,9 +18,9 @@ export const vue = async (options: VueOptions = {}) => {
     vueParser,
     vueBlocks,
   ] = await Promise.all([
-    (await import('eslint-plugin-vue'))['default'],
-    (await import('vue-eslint-parser'))['default'],
-    (await import('eslint-processor-vue-blocks'))['default'],
+    (await import('eslint-plugin-vue')).default,
+    (await import('vue-eslint-parser')).default,
+    (await import('eslint-processor-vue-blocks')).default,
   ]);
 
   return [
@@ -58,7 +58,7 @@ export const vue = async (options: VueOptions = {}) => {
           },
           extraFileExtensions: ['.vue'],
           parser: options.typescript
-            ? (await import('@typescript-eslint/parser'))['default']
+            ? (await import('@typescript-eslint/parser')).default
             : null,
           sourceType: 'module',
         },
