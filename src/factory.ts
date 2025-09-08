@@ -1,19 +1,16 @@
 import { Linter } from 'eslint';
 import { javascript } from './rules';
-import type { Options as VueBlocksOptions } from 'eslint-processor-vue-blocks';
-import { vue } from './rules/vue';
 import { FlatConfigComposer } from 'eslint-flat-config-utils';
 import { typescript } from './rules/typescript';
 import { isPackageExists } from 'local-pkg';
-import { ParserOptions } from '@typescript-eslint/parser';
-import { ignore } from './rules/ignore';
-import { stylistic, StylisticOptions } from './rules/stylistic';
-import { ConfigNames, OptionsConfig, OptionsOverrides, TypedFlatConfigItem } from './type';
+import { stylistic } from './rules/stylistic';
+import { ConfigNames, OptionsConfig, TypedFlatConfigItem } from './type';
 import { yaml } from './rules/yaml';
-import { getOverrides, isInEditorEnv, resolveSubOptions } from './utils';
+import { getOverrides, interopDefault, isInEditorEnv, resolveSubOptions } from './utils';
 import { unocss } from './rules/unocss';
 import { jsonc } from './rules/json';
 import { toml } from './rules/toml';
+import { ignore } from './rules/ignore';
 
 export type Awaitable<T> = T | Promise<T>;
 
@@ -28,11 +25,9 @@ export const www = (
   options: OptionsConfig & Omit<TypedFlatConfigItem, 'files'> = {},
 ): FlatConfigComposer<TypedFlatConfigItem, ConfigNames> => {
   const {
-    javascript: enableJavascript = true,
+    gitIgnore: enableGitignore = true,
     vue: enableVue = VuePackages.some(p => isPackageExists(p)),
     typescript: enableTypescript = isPackageExists('typescript'),
-    // ignore: enableIgnore = true,
-    stylistic: enableStylistic = true,
     yaml: enableYaml = true,
     unocss: enableUnocss = false,
     json: enableJson = false,
@@ -51,11 +46,25 @@ export const www = (
       : {};
   const typescriptOptions = resolveSubOptions(options, 'typescript');
   config.push(
+    ignore(options.ignores),
     javascript({
       isInEditor,
       overrides: getOverrides(options, 'overrides'),
     }),
   );
+  if (enableGitignore) {
+    if (typeof enableGitignore !== 'boolean') {
+      config.push(interopDefault(import('eslint-config-flat-gitignore')).then(r => [r({
+        name: 'antfu/gitignore',
+        ...enableGitignore,
+      })]));
+    } else {
+      config.push(interopDefault(import('eslint-config-flat-gitignore')).then(r => [r({
+        name: 'antfu/gitignore',
+        strict: false,
+      })]));
+    }
+  }
   if (enableYaml) {
     config.push(
       yaml({

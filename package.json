@@ -3,7 +3,7 @@
   "version": "1.0.4",
   "description": "GaoNeng-wWw's eslint config",
   "scripts": {
-    "build": "tsup",
+    "build": "pnpm build:type && tsup",
     "lint": "eslint --flag unstable_ts_config .",
     "lint:fix": "eslint --flag unstable_ts_config . --fix",
     "dev": "eslint-config-inspector --config eslint.config.ts",
@@ -39,6 +39,7 @@
     "@typescript-eslint/eslint-plugin": "^8.42.0",
     "@typescript-eslint/parser": "^8.42.0",
     "@unocss/eslint-plugin": "^66.5.1",
+    "eslint-config-flat-gitignore": "^2.1.0",
     "eslint-flat-config-utils": "^0.4.0",
     "eslint-merge-processors": "^0.1.0",
     "eslint-plugin-jsonc": "^2.20.1",

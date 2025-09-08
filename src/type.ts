@@ -3,6 +3,7 @@ import { RuleOptions, ConfigNames } from './typegen';
 import { StylisticCustomizeOptions } from '@stylistic/eslint-plugin';
 import { ParserOptions } from '@typescript-eslint/parser';
 import type { Options as VueBlocksOptions } from 'eslint-processor-vue-blocks';
+import type { FlatGitignoreOptions } from 'eslint-config-flat-gitignore';
 
 export type Awaitable<T> = T | Promise<T>;
 
@@ -125,6 +126,7 @@ export interface OptionVue extends OptionsOverrides {
   vueVersion?: 2 | 3;
 }
 export type OptionsConfig = {
+  gitIgnore?: boolean | FlatGitignoreOptions;
   javascript?: OptionsOverrides;
   yaml?: boolean | OptionsOverrides;
   typescript?: boolean | OptionsTypescript;
