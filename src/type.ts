@@ -95,6 +95,19 @@ export interface OptionsTypeScriptWithTypes {
 export interface OptionsHasTypeScript {
   typescript?: boolean
 }
+
+export interface OptionsUnoCSS extends OptionsOverrides {
+  /**
+   * Enable attributify support.
+   * @default true
+   */
+  attributify?: boolean
+  /**
+   * Enable strict mode by throwing errors about blocklisted classes.
+   * @default false
+   */
+  strict?: boolean
+}
 export interface OptionVue extends OptionsOverrides {
   /**
    * Create virtual files for Vue SFC blocks to enable linting.
@@ -117,6 +130,7 @@ export type OptionsConfig = {
   typescript?: boolean | OptionsTypescript
   vue?: boolean | OptionVue
   stylistic?: boolean | (StylisticConfig & OptionsOverrides)
+  unocss?: boolean | OptionsUnoCSS
   isInEditor?: boolean
   overrides?: {
     yaml?: TypedFlatConfigItem['rules']

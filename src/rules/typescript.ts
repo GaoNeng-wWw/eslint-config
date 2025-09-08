@@ -14,22 +14,23 @@ export const typescript = async (
     overridesTypeAware = {},
     parserOptions = {},
     type = 'app',
-  } = options;
+  } = options
 
   const files = options.files ?? [
     GLOB_TS,
     GLOB_TSX,
     ...componentExts.map(ext => `**/*.${ext}`),
-  ];
+  ]
 
-  const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX];
+  const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX]
   const ignoresTypeAware = options.ignoresTypeAware ?? [
     `${GLOB_MARKDOWN}/**`,
     GLOB_ASTRO_TS,
-  ];
+  ]
   const tsconfigPath = options?.tsconfigPath
     ? options.tsconfigPath
-    : undefined;
+    : undefined
+  
   const isTypeAware = !!tsconfigPath;
   const typeAwareRules: TypedFlatConfigItem['rules'] = {
     'dot-notation': 'off',
@@ -54,7 +55,7 @@ export const typescript = async (
     'ts/switch-exhaustiveness-check': 'error',
     'ts/unbound-method': 'error',
   };
-  function makeParser(typeAware: boolean, files: string[], ignores?: string[]) {
+  function makeParser(typeAware: boolean, files: string[], ignores?: string[]): TypedFlatConfigItem {
     return {
       files,
       ...ignores ? { ignores } : {},
@@ -65,18 +66,18 @@ export const typescript = async (
           sourceType: 'module',
           ...typeAware
             ? {
-              projectService: {
-                allowDefaultProject: ['./*.js'],
-                defaultProject: tsconfigPath,
-              },
-              tsconfigRootDir: process.cwd(),
-            }
+                projectService: {
+                  allowDefaultProject: ['./*.js'],
+                  defaultProject: tsconfigPath,
+                },
+                tsconfigRootDir: process.cwd(),
+              }
             : {},
           ...parserOptions as any,
         },
       },
-      name: `typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
-    };
+      name: `antfu/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
+    }
   }
   return [
     {

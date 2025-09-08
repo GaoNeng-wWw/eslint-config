@@ -11,48 +11,8 @@ import { stylistic, StylisticOptions } from './rules/stylistic';
 import { ConfigNames, OptionsConfig, OptionsOverrides, TypedFlatConfigItem } from './type';
 import { yaml } from './rules/yaml';
 import { getOverrides, isInEditorEnv, resolveSubOptions } from './utils';
+import { unocss } from './rules/unocss';
 
-// export type Override = Record<string, any>;
-// export type Option<T = object> = {
-//   override?: Override;
-//   enable?: boolean;
-//   option?: T;
-// };
-// export interface VueOptions {
-//   override?: Record<string, any>;
-//   files?: string;
-//   typescript?: boolean;
-//   sfcBlocks?: boolean | VueBlocksOptions;
-//   vueVersion?: number;
-//   enable?: boolean;
-//   indent?: number;
-//   stylistic?: boolean;
-// }
-// export type TypescriptOptions = {
-//   files?: string[];
-//   overrides?: TypedFlatConfigItem['rules'];
-//   type?: 'app' | 'lib';
-//   enable?: boolean;
-//   tsconfigPath?: string;
-//   parserOptions?: ParserOptions;
-//   componentExts?: string[];
-//   filesTypeAware?: string[];
-//   ignoresTypeAware?: string[];
-// };
-// export interface Options {
-//   javascript?: Option<{
-//     languageOptions?: Linter.Config['languageOptions'];
-//     linterOptions?: Linter.Config['linterOptions'];
-//     plugins?: Linter.Config['plugins'][];
-//   }>;
-//   vue?: VueOptions;
-//   typescript?: TypescriptOptions;
-//   ignore?: {
-//     userIgnore?: string[];
-//   };
-//   stylistic?: StylisticOptions;
-//   yaml?: boolean | OptionsOverrides;
-// }
 
 export type Awaitable<T> = T | Promise<T>;
 
@@ -73,10 +33,11 @@ export const www = (
     // ignore: enableIgnore = true,
     stylistic: enableStylistic = true,
     yaml: enableYaml = true,
+    unocss: enableUnocss = false,
     componentExts,
   } = options;
   let isInEditor = options.isInEditor;
-  if (isInEditor == null) {
+  if (isInEditor === null) {
     isInEditor = isInEditorEnv();
   }
   const config: Awaitable<Linter.Config[]>[] = [];
@@ -86,7 +47,6 @@ export const www = (
       ? options.stylistic
       : {};
   const typescriptOptions = resolveSubOptions(options, 'typescript');
-  const tsconfigPath = 'tsconfigPath' in typescriptOptions ? typescriptOptions.tsconfigPath : undefined;
   config.push(
     javascript({
       isInEditor,
@@ -117,6 +77,11 @@ export const www = (
       ...stylisticOptions,
       overrides: getOverrides(options, 'stylistic'),
     }));
+  }
+  if (enableUnocss) {
+    config.push(
+      unocss(resolveSubOptions(options, 'unocss')),
+    );
   }
   const composer = new FlatConfigComposer();
   composer.append(

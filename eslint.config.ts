@@ -1,5 +1,3 @@
 import { www } from './src';
 
-export default www({
-  
-});
+export default www();
