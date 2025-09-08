@@ -1,14 +1,39 @@
-import { Linter } from 'eslint';
-import stylisticPlugin, { StylisticCustomizeOptions } from '@stylistic/eslint-plugin';
-import { Option, Override } from '../factory';
+import stylisticPlugin from '@stylistic/eslint-plugin';
+import { OptionsOverrides, StylisticConfig } from '../type';
 
-export interface StylisticOptions extends StylisticCustomizeOptions, Option {}
+export const StylisticConfigDefaults: StylisticConfig = {
+  indent: 2,
+  jsx: true,
+  quotes: 'single',
+  semi: false,
+}
+
+export interface StylisticOptions extends StylisticConfig, OptionsOverrides {
+  lessOpinionated?: boolean
+}
+
 
 export const stylistic = (
-  opts: StylisticOptions = {},
+  options: StylisticOptions = {},
 ) => {
-  const { override = {} } = opts;
-  const baseRule = stylisticPlugin.configs.customize({ semi: true, indent: 2 });
+  const {
+    indent,
+    jsx,
+    lessOpinionated = false,
+    overrides = {},
+    quotes,
+    semi,
+  } = {
+    ...StylisticConfigDefaults,
+    ...options,
+  }
+  const baseRule = stylisticPlugin.configs.customize({
+    indent,
+    jsx,
+    quotes,
+    semi,
+    braceStyle: '1tbs',
+  });
   return [
     {
       name: 'gaonengwww/stylistic',
@@ -22,7 +47,8 @@ export const stylistic = (
         '@stylistic/semi': ['error', 'always'],
         '@stylistic/arrow-spacing': ['error', { after: true, before: true }],
         '@stylistic/block-spacing': ['error', 'always'],
-        ...override,
+
+        ...overrides,
       },
     },
   ] as any;

@@ -1,12 +1,10 @@
-import { Override } from '../factory';
+
 import { Linter } from 'eslint';
 import global from 'globals';
+import { OptionsIsInEditor, OptionsOverrides } from '../type';
 
 export const javascript = async (
-  overrides: Override,
-  languageOptions?: Linter.Config['languageOptions'],
-  linterOptions?: Linter.Config['linterOptions'],
-  plugins?: Linter.Config['plugins'],
+  options: OptionsIsInEditor & OptionsOverrides = {},
 ) => {
   return [
     {
@@ -24,19 +22,18 @@ export const javascript = async (
         parserOptions: {
           ecmaFeatures: {
             jsx: true,
-            ...languageOptions?.parserOptions?.ecmaFeatures ?? {},
           },
-          ecmaVersion: languageOptions?.parserOptions?.ecmaVersion ?? 2022,
-          sourceType: languageOptions?.parserOptions?.sourceType ?? 'module',
+          ecmaVersion: 2022,
+          sourceType: 'module',
         },
       },
       linterOptions: {
-        reportUnusedDisableDirectives: linterOptions?.reportUnusedDisableDirectives ?? 'warn',
+        reportUnusedDisableDirectives: true,
       },
     },
     {
       name: 'gaonengwww/javascript/rules',
-      plugins: plugins ?? {},
+      plugins: {},
       rules: {
         'constructor-super': ['error'],
         'for-direction': ['error'],
@@ -94,7 +91,8 @@ export const javascript = async (
         'accessor-pairs': ['error', { enforceForClassMembers: true, setWithoutGet: true }],
         'arrow-body-style': ['off'],
         'curly': ['error', 'all'],
-        'dot-notation': ['error', { allowKeywords: true }],
+        // 开发者自己决定更好
+        'dot-notation': ['off', { allowKeywords: true }],
         'eqeqeq': ['error'],
         'new-cap': ['error', { capIsNew: false, newIsCap: true, properties: true }],
         'no-delete-var': ['error'],
@@ -108,7 +106,15 @@ export const javascript = async (
         'quotes': ['error', 'single'],
         'space-before-blocks': ['error'],
         'linebreak-style': ['off'],
-        ...overrides,
+        'yoda': ['error'],
+        'prefer-const': [
+          'error',
+          {
+            destructuring: 'all',
+            ignoreReadBeforeAssign: true,
+          },
+        ],
+        ...options.overrides,
       },
     },
   ] as Linter.Config[];

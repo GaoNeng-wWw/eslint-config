@@ -1,13 +1,15 @@
 import { Linter } from 'eslint';
 import { mergeProcessors } from 'eslint-merge-processors';
-import { VueOptions } from '../factory';
+import { OptionsFiles, OptionsHasTypeScript, OptionsOverrides, OptionsStylistic, OptionVue } from '../type';
+import { GLOB_VUE } from '../glob';
 
-export const vue = async (options: VueOptions = {}) => {
+export const vue = async (
+  options: OptionVue & OptionsHasTypeScript & OptionsOverrides & OptionsStylistic & OptionsFiles = {},
+) => {
   const {
-    files = ['./**/*.vue'],
-    override = {},
+    files = [GLOB_VUE],
+    overrides = {},
     vueVersion = 3,
-    indent = 2,
     stylistic = true,
   } = options;
   const sfcBlocks = options.sfcBlocks === true
@@ -22,6 +24,9 @@ export const vue = async (options: VueOptions = {}) => {
     (await import('vue-eslint-parser')).default,
     (await import('eslint-processor-vue-blocks')).default,
   ]);
+  const {
+    indent = 2,
+  } = typeof stylistic === 'boolean' ? {} : stylistic;
 
   return [
     {
@@ -172,7 +177,7 @@ export const vue = async (options: VueOptions = {}) => {
             'vue/template-curly-spacing': 'error',
           }
           : {},
-        ...override,
+        ...overrides,
       },
     },
   ] as Linter.Config[];

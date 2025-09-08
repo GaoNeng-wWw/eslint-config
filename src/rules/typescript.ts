@@ -1,35 +1,59 @@
 import { Linter } from 'eslint';
-import { TypescriptOptions } from '../factory';
 import { renameRules } from '../utils';
 import { GLOB_ASTRO_TS, GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../glob';
 import pluginTs from '@typescript-eslint/eslint-plugin';
 import parserTs from '@typescript-eslint/parser';
+import { OptionsComponentExts, OptionsFiles, OptionsOverrides, OptionsProjectType, OptionsTypescript, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from '../type';
 
 export const typescript = async (
-  options: Partial<TypescriptOptions> = {},
+  options: OptionsFiles & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions & OptionsProjectType = {},
 ): Promise<Linter.Config<Linter.RulesRecord>[]> => {
   const {
-    files = [
-      GLOB_TS,
-      GLOB_TSX,
-    ],
-    type = 'app',
-    overrides,
-    parserOptions = {},
     componentExts = [],
+    overrides = {},
+    overridesTypeAware = {},
+    parserOptions = {},
+    type = 'app',
   } = options;
-  files.push(
+
+  const files = options.files ?? [
+    GLOB_TS,
+    GLOB_TSX,
     ...componentExts.map(ext => `**/*.${ext}`),
-  );
-  const tsconfigPath = options?.tsconfigPath
-    ? options.tsconfigPath
-    : undefined;
-  const isTypeAware = !!tsconfigPath;
+  ];
+
   const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX];
   const ignoresTypeAware = options.ignoresTypeAware ?? [
     `${GLOB_MARKDOWN}/**`,
     GLOB_ASTRO_TS,
   ];
+  const tsconfigPath = options?.tsconfigPath
+    ? options.tsconfigPath
+    : undefined;
+  const isTypeAware = !!tsconfigPath;
+  const typeAwareRules: TypedFlatConfigItem['rules'] = {
+    'dot-notation': 'off',
+    'no-implied-eval': 'off',
+    'ts/await-thenable': 'error',
+    'ts/dot-notation': ['error', { allowKeywords: true }],
+    'ts/no-floating-promises': 'error',
+    'ts/no-for-in-array': 'error',
+    'ts/no-implied-eval': 'error',
+    'ts/no-misused-promises': 'error',
+    'ts/no-unnecessary-type-assertion': 'error',
+    'ts/no-unsafe-argument': 'error',
+    'ts/no-unsafe-assignment': 'error',
+    'ts/no-unsafe-call': 'error',
+    'ts/no-unsafe-member-access': 'error',
+    'ts/no-unsafe-return': 'error',
+    'ts/promise-function-async': 'error',
+    'ts/restrict-plus-operands': 'error',
+    'ts/restrict-template-expressions': 'error',
+    'ts/return-await': ['error', 'in-try-catch'],
+    'ts/strict-boolean-expressions': ['error', { allowNullableBoolean: true, allowNullableObject: true }],
+    'ts/switch-exhaustiveness-check': 'error',
+    'ts/unbound-method': 'error',
+  };
   function makeParser(typeAware: boolean, files: string[], ignores?: string[]) {
     return {
       files,
@@ -54,7 +78,6 @@ export const typescript = async (
       name: `typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
     };
   }
-
   return [
     {
       name: 'typescript/setup',
@@ -123,5 +146,20 @@ export const typescript = async (
         ...overrides,
       },
     },
+    ...(isTypeAware
+      ? (
+        [
+          {
+            files: filesTypeAware,
+            ignores: ignoresTypeAware,
+            name: 'gaonengwww/ts/rules-type-aware',
+            rules: {
+              ...typeAwareRules,
+              ...overridesTypeAware,
+            },
+          },
+        ]
+      )
+      : []),
   ];
 };
