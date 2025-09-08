@@ -5,13 +5,12 @@ export const StylisticConfigDefaults: StylisticConfig = {
   indent: 2,
   jsx: true,
   quotes: 'single',
-  semi: false,
-}
+  semi: true,
+};
 
 export interface StylisticOptions extends StylisticConfig, OptionsOverrides {
   lessOpinionated?: boolean
 }
-
 
 export const stylistic = (
   options: StylisticOptions = {},
@@ -26,7 +25,7 @@ export const stylistic = (
   } = {
     ...StylisticConfigDefaults,
     ...options,
-  }
+  };
   const baseRule = stylisticPlugin.configs.customize({
     indent,
     jsx,

@@ -12,7 +12,8 @@ import { ConfigNames, OptionsConfig, OptionsOverrides, TypedFlatConfigItem } fro
 import { yaml } from './rules/yaml';
 import { getOverrides, isInEditorEnv, resolveSubOptions } from './utils';
 import { unocss } from './rules/unocss';
-
+import { jsonc } from './rules/json';
+import { toml } from './rules/toml';
 
 export type Awaitable<T> = T | Promise<T>;
 
@@ -34,7 +35,9 @@ export const www = (
     stylistic: enableStylistic = true,
     yaml: enableYaml = true,
     unocss: enableUnocss = false,
-    componentExts,
+    json: enableJson = false,
+    toml: enableToml = false,
+    componentExts = [],
   } = options;
   let isInEditor = options.isInEditor;
   if (isInEditor === null) {
@@ -83,6 +86,15 @@ export const www = (
       unocss(resolveSubOptions(options, 'unocss')),
     );
   }
+  if (enableJson) {
+    config.push(
+      jsonc(resolveSubOptions(options, 'json')),
+    );
+  }
+  if (enableToml) {
+    config.push(toml(resolveSubOptions(options, 'toml')));
+  }
+
   const composer = new FlatConfigComposer();
   composer.append(
     ...config,
