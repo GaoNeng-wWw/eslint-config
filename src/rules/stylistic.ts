@@ -9,7 +9,6 @@ export const StylisticConfigDefaults: StylisticConfig = {
 };
 
 export interface StylisticOptions extends StylisticConfig, OptionsOverrides {
-  lessOpinionated?: boolean
 }
 
 export const stylistic = (
@@ -18,7 +17,6 @@ export const stylistic = (
   const {
     indent,
     jsx,
-    lessOpinionated = false,
     overrides = {},
     quotes,
     semi,

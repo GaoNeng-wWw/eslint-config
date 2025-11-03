@@ -1,8 +1,6 @@
 import { Linter } from 'eslint';
-import { renameRules } from '../utils';
+import { interopDefault, renameRules } from '../utils';
 import { GLOB_ASTRO_TS, GLOB_MARKDOWN, GLOB_TS, GLOB_TSX } from '../glob';
-import pluginTs from '@typescript-eslint/eslint-plugin';
-import parserTs from '@typescript-eslint/parser';
 import { OptionsComponentExts, OptionsFiles, OptionsOverrides, OptionsProjectType, OptionsTypescript, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes, TypedFlatConfigItem } from '../type';
 
 export const typescript = async (
@@ -14,23 +12,29 @@ export const typescript = async (
     overridesTypeAware = {},
     parserOptions = {},
     type = 'app',
-  } = options
+  } = options;
 
   const files = options.files ?? [
     GLOB_TS,
     GLOB_TSX,
     ...componentExts.map(ext => `**/*.${ext}`),
-  ]
-
-  const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX]
+  ];
+  const [
+    pluginTs,
+    parserTs,
+  ] = await Promise.all([
+    interopDefault(import('@typescript-eslint/eslint-plugin')),
+    interopDefault(import('@typescript-eslint/parser')),
+  ] as const)
+  const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX];
   const ignoresTypeAware = options.ignoresTypeAware ?? [
     `${GLOB_MARKDOWN}/**`,
     GLOB_ASTRO_TS,
-  ]
+  ];
   const tsconfigPath = options?.tsconfigPath
     ? options.tsconfigPath
-    : undefined
-  
+    : undefined;
+
   const isTypeAware = !!tsconfigPath;
   const typeAwareRules: TypedFlatConfigItem['rules'] = {
     'dot-notation': 'off',
@@ -66,18 +70,18 @@ export const typescript = async (
           sourceType: 'module',
           ...typeAware
             ? {
-                projectService: {
-                  allowDefaultProject: ['./*.js'],
-                  defaultProject: tsconfigPath,
-                },
-                tsconfigRootDir: process.cwd(),
-              }
+              projectService: {
+                allowDefaultProject: ['./*.js'],
+                defaultProject: tsconfigPath,
+              },
+              tsconfigRootDir: process.cwd(),
+            }
             : {},
           ...parserOptions as any,
         },
       },
       name: `antfu/typescript/${typeAware ? 'type-aware-parser' : 'parser'}`,
-    }
+    };
   }
   return [
     {

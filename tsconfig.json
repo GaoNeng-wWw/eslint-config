@@ -10,7 +10,8 @@
     "include": [
         "./src/**/*",
         "tsup.config.ts",
-        "./eslint.config.ts"
+        "./eslint.config.ts",
+        "tests/**/*"
     ],
     "exclude": [
         "node_modules"

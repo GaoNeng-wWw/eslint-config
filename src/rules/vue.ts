@@ -2,6 +2,7 @@ import { Linter } from 'eslint';
 import { mergeProcessors } from 'eslint-merge-processors';
 import { OptionsFiles, OptionsHasTypeScript, OptionsOverrides, OptionsStylistic, OptionVue } from '../type';
 import { GLOB_VUE } from '../glob';
+import { interopDefault } from '../utils';
 
 export const vue = async (
   options: OptionVue & OptionsHasTypeScript & OptionsOverrides & OptionsStylistic & OptionsFiles = {},
@@ -63,7 +64,7 @@ export const vue = async (
           },
           extraFileExtensions: ['.vue'],
           parser: options.typescript
-            ? (await import('@typescript-eslint/parser')).default
+            ? await interopDefault(import('@typescript-eslint/parser')) as any
             : null,
           sourceType: 'module',
         },

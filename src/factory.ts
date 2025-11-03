@@ -11,6 +11,7 @@ import { unocss } from './rules/unocss';
 import { jsonc } from './rules/json';
 import { toml } from './rules/toml';
 import { ignore } from './rules/ignore';
+import { vue } from './rules/vue';
 
 export type Awaitable<T> = T | Promise<T>;
 
@@ -90,6 +91,16 @@ export const www = (
       overrides: getOverrides(options, 'stylistic'),
     }));
   }
+
+  if (enableVue) {
+    config.push(vue({
+      ...resolveSubOptions(options, 'vue'),
+      overrides: getOverrides(options, 'vue'),
+      stylistic: stylisticOptions,
+      typescript: !!enableTypescript,
+    }));
+  }
+
   if (enableUnocss) {
     config.push(
       unocss(resolveSubOptions(options, 'unocss')),
