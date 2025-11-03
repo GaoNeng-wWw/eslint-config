@@ -12,6 +12,8 @@ import { jsonc } from './rules/json';
 import { toml } from './rules/toml';
 import { ignore } from './rules/ignore';
 import { vue } from './rules/vue';
+import { react } from './rules/react';
+import { nextjs } from './rules/nextjs';
 
 export type Awaitable<T> = T | Promise<T>;
 
@@ -33,6 +35,8 @@ export const www = (
     unocss: enableUnocss = false,
     json: enableJson = false,
     toml: enableToml = false,
+    react: enableReact = false,
+    nextjs: enableNext = false,
     componentExts = [],
   } = options;
   let isInEditor = options.isInEditor;
@@ -46,6 +50,7 @@ export const www = (
       ? options.stylistic
       : {};
   const typescriptOptions = resolveSubOptions(options, 'typescript');
+  const tsconfigPath = 'tsconfigPath' in typescriptOptions ? typescriptOptions.tsconfigPath : undefined;
   config.push(
     ignore(options.ignores),
     javascript({
@@ -98,6 +103,22 @@ export const www = (
       overrides: getOverrides(options, 'vue'),
       stylistic: stylisticOptions,
       typescript: !!enableTypescript,
+    }));
+  }
+
+  if (enableReact) {
+    config.push(
+      react({
+        ...typescriptOptions,
+        overrides: getOverrides(options, 'react'),
+        tsconfigPath,
+      }),
+    );
+  }
+
+  if (enableNext) {
+    config.push(nextjs({
+      overrides: getOverrides(options, 'nextjs'),
     }));
   }
 

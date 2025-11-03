@@ -136,6 +136,26 @@ export type OptionsConfig = {
   json?: boolean | OptionsOverrides;
   toml?: boolean | OptionsOverrides;
   isInEditor?: boolean;
+  /**
+   * Enable react rules.
+   *
+   * Requires installing:
+   * - `@eslint-react/eslint-plugin`
+   * - `eslint-plugin-react-hooks`
+   * - `eslint-plugin-react-refresh`
+   *
+   * @default false
+   */
+  react?: boolean | OptionsOverrides;
+  /**
+   * Enable nextjs rules.
+   *
+   * Requires installing:
+   * - `@next/eslint-plugin-next`
+   *
+   * @default false
+   */
+  nextjs?: boolean | OptionsOverrides;
   overrides?: {
     yaml?: TypedFlatConfigItem['rules'];
     javascript?: TypedFlatConfigItem['rules'];
