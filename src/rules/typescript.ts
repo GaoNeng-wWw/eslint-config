@@ -25,7 +25,7 @@ export const typescript = async (
   ] = await Promise.all([
     interopDefault(import('@typescript-eslint/eslint-plugin')),
     interopDefault(import('@typescript-eslint/parser')),
-  ] as const)
+  ] as const);
   const filesTypeAware = options.filesTypeAware ?? [GLOB_TS, GLOB_TSX];
   const ignoresTypeAware = options.ignoresTypeAware ?? [
     `${GLOB_MARKDOWN}/**`,

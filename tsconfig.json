@@ -9,7 +9,7 @@
     },
     "include": [
         "./src/**/*",
-        "tsup.config.ts",
+        "tsdown.config.ts",
         "./eslint.config.ts",
         "tests/**/*"
     ],

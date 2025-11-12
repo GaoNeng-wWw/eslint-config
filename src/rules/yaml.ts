@@ -6,12 +6,21 @@ export async function yaml(
   opts: OptionsOverrides & OptionsStylistic & OptionsFiles,
 ): Promise<TypedFlatConfigItem[]> {
   const {
-    files=[GLOB_YAML],
+    files = [GLOB_YAML],
     overrides = {},
     stylistic = true,
   } = opts;
 
-  const { indent = 2, quotes = 'single' } = typeof opts.stylistic === 'boolean' ? {} : opts.stylistic;
+  const { indent = 2, quotes = 'single' } = typeof opts.stylistic === 'boolean'
+    ? {
+      indent: 2,
+      quotes: 'single',
+    }
+    : {
+      indent: 2,
+      quotes: 'single',
+      ...opts.stylistic,
+    };
 
   const [
     pluginYaml,

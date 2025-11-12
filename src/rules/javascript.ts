@@ -1,4 +1,3 @@
-
 import { Linter } from 'eslint';
 import global from 'globals';
 import { OptionsIsInEditor, OptionsOverrides } from '../type';

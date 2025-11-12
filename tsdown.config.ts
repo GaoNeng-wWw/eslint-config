@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsdown';
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -7,4 +7,6 @@ export default defineConfig({
   outDir: 'dist',
   clean: true,
   minify: true,
+  publint: true,
+  attw: true,
 });

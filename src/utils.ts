@@ -85,7 +85,9 @@ export async function ensurePackages(packages: (string | undefined)[]): Promise<
   }
 
   const nonExistingPackages = packages.filter(i => i && !isPackageInScope(i)) as string[];
-  if (nonExistingPackages.length === 0) { return; }
+  if (nonExistingPackages.length === 0) {
+    return;
+  }
 
   const p = await import('@clack/prompts');
   const result = await p.confirm({
